@@ -1,0 +1,444 @@
+/* ═══════════════════════════════════════════════════════════════════════
+   Wall Calendar — CSS
+   Matches the reference: portrait card hanging from wall nail/hook,
+   wire spiral binding across top, hero image + wave overlay,
+   notes (left) + date grid (right).
+═══════════════════════════════════════════════════════════════════════ */
+
+/* ── Wall Background ─────────────────────────────────────────────────── */
+.wall {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem 3rem;
+  background: #e9ecef;
+  background-image:
+    radial-gradient(ellipse at 40% 30%, rgba(255,255,255,0.7) 0%, transparent 60%),
+    radial-gradient(ellipse at 70% 70%, rgba(0,0,0,0.04) 0%, transparent 50%);
+}
+
+/* ── Hook / Nail ─────────────────────────────────────────────────────── */
+.hook-container {
+  width: 40px;
+  height: 55px;
+  margin-bottom: -6px;   /* overlap just the very top of the spiral bar */
+  z-index: 30;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.25));
+}
+
+.hook-svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Calendar Card ───────────────────────────────────────────────────── */
+.calendar-card {
+  width: 100%;
+  max-width: 600px;
+  display: flex;
+  flex-direction: column;
+  filter: drop-shadow(0 20px 50px rgba(0,0,0,0.15));
+  position: relative;
+}
+
+/* ── Spiral Wire Binding ─────────────────────────────────────────────── */
+.spiral-bar {
+  height: 22px;
+  background: linear-gradient(180deg, #2a2a2a, #3a3a3a);
+  border-radius: 4px 4px 0 0;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  padding: 0 12px;
+  position: relative;
+  z-index: 10;
+}
+
+.spiral-loop {
+  width: 14px;
+  height: 18px;
+  border: 2.5px solid #aaa;
+  border-bottom: none;
+  border-radius: 7px 7px 0 0;
+  background: linear-gradient(to right, #999, #ddd, #999);
+  background-clip: padding-box;
+  position: relative;
+  top: -10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+  flex-shrink: 0;
+}
+
+/* ── 3D Flip Perspective ─────────────────────────────────────────────── */
+.page-perspective {
+  perspective: 1200px;
+  perspective-origin: center 0%;
+  position: relative;
+}
+
+.page-stack {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 0 0 4px 4px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+  pointer-events: none;
+  border: 1px solid #e0e0e0;
+  transition: transform 0.3s ease;
+}
+
+.page-stack-top {
+  transform: translateY(6px) scaleX(0.998) rotate(0.1deg);
+  z-index: 3;
+  border-bottom: 2px solid #ddd;
+}
+
+.page-stack-middle {
+  transform: translateY(12px) scaleX(0.995) rotate(-0.2deg);
+  z-index: 2;
+  border-bottom: 2px solid #ccc;
+  opacity: 0.95;
+}
+
+.page-stack-bottom {
+  transform: translateY(18px) scaleX(0.99) rotate(0.15deg);
+  z-index: 1;
+  border-bottom: 2px solid #bbb;
+  opacity: 0.9;
+}
+
+.page {
+  background: #fff;
+  border-radius: 0 0 6px 6px;
+  overflow: hidden;
+  transform-origin: top center;
+  backface-visibility: hidden;
+  will-change: transform, opacity;
+  position: relative;
+  z-index: 5;
+}
+
+/* ── Hero Image ──────────────────────────────────────────────────────── */
+.hero {
+  position: relative;
+  height: 320px;
+  overflow: hidden;
+  background: #222;
+}
+
+.hero-img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* Wave / Chevron overlay — matches the reference diagonal shape */
+.hero-wave {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 48%;
+  z-index: 3;
+  pointer-events: none;
+  filter: drop-shadow(0 -4px 12px rgba(0,0,0,0.1));
+}
+
+.hero-text {
+  position: absolute;
+  bottom: 24px;
+  right: 32px;
+  z-index: 5;
+  text-align: right;
+  color: #fff;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+}
+
+.hero-year {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: 0.15em;
+  opacity: 0.95;
+  margin-bottom: -4px;
+}
+
+.hero-month {
+  font-size: 2.8rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+/* Nav arrows */
+.arrow {
+  position: absolute;
+  top: 38%;
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.2);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,0.3);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+.arrow-left { left: 10px; }
+.arrow-right { right: 10px; }
+.arrow:hover {
+  background: rgba(255,255,255,0.35);
+  transform: scale(1.1);
+}
+.arrow:active { transform: scale(0.95); }
+
+/* ── Body: Notes + Grid ──────────────────────────────────────────────── */
+.body {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  min-height: 320px;
+  border-top: 1px solid #f0f0f0;
+}
+
+/* ── Notes Panel ─────────────────────────────────────────────────────── */
+.notes-panel {
+  padding: 1.2rem 1rem;
+  border-right: 1px solid #eee;
+  display: flex;
+  flex-direction: column;
+}
+
+.notes-title {
+  font-size: 0.6rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #999;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.notes-area {
+  flex: 1;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 0.88rem;
+  line-height: 2.2rem;
+  color: #444;
+  width: 100%;
+  min-height: 220px;
+  padding: 0;
+  background-image: linear-gradient(
+    transparent calc(2.2rem - 1px),
+    #eeeeee calc(2.2rem - 1px),
+    #eeeeee 2.2rem,
+    transparent 2.2rem
+  );
+  background-size: 100% 2.2rem;
+  transition: all 0.2s ease;
+}
+
+.notes-area:focus {
+  background-image: linear-gradient(
+    transparent calc(2.2rem - 1px),
+    color-mix(in srgb, var(--accent) 30%, #eee) calc(2.2rem - 1px),
+    color-mix(in srgb, var(--accent) 30%, #eee) 2.2rem,
+    transparent 2.2rem
+  );
+}
+
+.notes-area::placeholder { color: #ccc; }
+
+.holiday-badge {
+  margin-top: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.68rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: #fff;
+  background: var(--accent, #2196F3);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+}
+
+/* ── Grid Panel ──────────────────────────────────────────────────────── */
+.grid-panel {
+  padding: 1.2rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.weekday-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  text-align: center;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  color: #888;
+  margin-bottom: 0.5rem;
+}
+
+.weekday-cell.accent {
+  color: var(--accent, #2196F3);
+}
+
+.day-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 2px;
+}
+
+/* ── Individual Day ──────────────────────────────────────────────────── */
+.cal-day {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  position: relative;
+  cursor: pointer;
+  border-radius: 0;
+  transition: background 0.15s;
+  font-size: 0.82rem;
+  font-weight: 500;
+  color: #333;
+  user-select: none;
+}
+
+.cal-day:hover:not(.selected) {
+  background: #f5f5f5;
+}
+
+.cal-day.muted {
+  color: #d0d0d0;
+  pointer-events: none;
+}
+
+.cal-day.weekend {
+  color: var(--accent, #2196F3);
+}
+
+.cal-day.today {
+  font-weight: 800;
+}
+
+.cal-day.today .day-text::after {
+  content: '';
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent, #2196F3);
+}
+
+.day-text {
+  position: relative;
+  z-index: 1;
+}
+
+/* Selection */
+.cal-day.selected {
+  background: var(--accent, #2196F3);
+  color: #fff !important;
+  border-radius: 50%;
+  font-weight: 700;
+}
+
+.cal-day.in-range {
+  background: color-mix(in srgb, var(--accent, #2196F3) 25%, transparent);
+  border-radius: 0;
+}
+
+.cal-day.range-start {
+  border-radius: 50% 0 0 50%;
+}
+
+.cal-day.range-end {
+  border-radius: 0 50% 50% 0;
+}
+
+.cal-day.range-start.range-end {
+  border-radius: 50%;
+}
+
+/* Holiday dot */
+.holiday-dot {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent, #2196F3);
+}
+
+/* ── Footer ──────────────────────────────────────────────────────────── */
+.cal-credit {
+  margin-top: 1.5rem;
+  font-size: 0.65rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  color: #aaa;
+  text-align: center;
+}
+
+/* ═══ Responsive ═════════════════════════════════════════════════════ */
+
+@media (max-width: 640px) {
+  .wall { padding: 1.5rem 0.5rem 2rem; }
+
+  .calendar-card { max-width: 100%; }
+
+  .hero { height: 220px; }
+
+  .hero-month { font-size: 1.4rem; }
+
+  .body {
+    grid-template-columns: 1fr;
+  }
+
+  .notes-panel {
+    border-right: none;
+    border-bottom: 1px solid #eee;
+    padding: 0.8rem;
+    max-height: 140px;
+  }
+
+  .notes-area { min-height: 80px; }
+
+  .grid-panel { padding: 0.8rem 0.5rem; }
+
+  .cal-day { height: 34px; font-size: 0.75rem; }
+
+  /* Hide some spiral loops */
+  .spiral-loop:nth-child(n+14) { display: none; }
+}
+
+@media (max-width: 380px) {
+  .hero { height: 180px; }
+  .hero-month { font-size: 1.2rem; }
+  .spiral-loop:nth-child(n+11) { display: none; }
+}
