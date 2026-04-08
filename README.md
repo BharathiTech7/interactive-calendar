@@ -2,7 +2,7 @@
 
 An interactive, high-fidelity React component inspired by physical wall calendars. This project translates a static design concept into a tactile, responsive digital experience with 3D animations and persistent functionality.
 
-![Wall Calendar Preview](https://images.unsplash.com/photo-1462275646964-a0e3386b89fa?auto=format&fit=crop&w=1200&q=80) 
+![Wall Calendar Preview](./public/preview.png) 
 
 ## 🚀 Features
 
